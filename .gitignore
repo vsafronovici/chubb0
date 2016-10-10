@@ -1,0 +1,14 @@
+target/
+.classpath
+.project
+.settings
+/bin
+*.iml
+.DS_Store
+.tern-project
+node_modules/
+node/
+reports/
+common-projects/
+.idea
+*.iml
