@@ -1,8 +1,8 @@
 package com.chubb.rest.adapter.request;
 
+import com.chubb.rest.adapter.connection.Connection;
 import com.chubb.rest.adapter.util.JsonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectReader;
 
 import java.io.IOException;
 
