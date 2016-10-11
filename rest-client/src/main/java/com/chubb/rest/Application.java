@@ -4,9 +4,9 @@ import com.chubb.rest.model.Quote;
 import com.chubb.rest.model.user.User;
 import com.chubb.rest.model.user.UserList;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -42,7 +43,7 @@ public class Application {
 	@Bean
 	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
 		return args -> {
-			Quote quote = restTemplate.getForObject(
+			/*Quote quote = restTemplate.getForObject(
 					"http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
 			log.info(quote.toString());
 
@@ -79,9 +80,13 @@ public class Application {
 			updateUser.setName("myName");
 			updateUser.setLastname("myLastName");
 			updateUser = updateUser(restTemplate, updateUser);
-			log.info("Updated user :" + updateUser);
+			log.info("Updated user :" + updateUser);*/
 
 
+			getUserAsObject(restTemplate, 1);
+			getUsersAsObject(restTemplate);
+			convertJsonStringToTree(restTemplate);
+			getUsersAsJsonNode(restTemplate);
 
 		};
 	}
@@ -218,6 +223,90 @@ public class Application {
 		return user;
 
 	}
+
+	private Object getUserAsObject(RestTemplate restTemplate, int id) {
+		String uri = "http://localhost:8080/jersey/rest/userres/users/user/" + id;
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_XML);
+		//headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+		ResponseEntity<Object> result = restTemplate.exchange(uri, HttpMethod.GET, entity, Object.class);
+		Object user = result.getBody();
+
+		return user;
+	}
+
+	private Object getUsersAsObject(RestTemplate restTemplate) {
+		String uri = "http://localhost:8080/jersey/rest/userres/users";
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+		ResponseEntity<Object> result = restTemplate.exchange(uri, HttpMethod.GET, entity, Object.class);
+		Object list = result.getBody();
+
+		return list;
+	}
+
+	private JsonNode getUsersAsJsonNode(RestTemplate restTemplate) {
+		String uri = "http://localhost:8080/jersey/rest/userres/users";
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+		ResponseEntity<JsonNode> result = restTemplate.exchange(uri, HttpMethod.GET, entity, JsonNode.class);
+		JsonNode jsonNode = result.getBody();
+
+		ArrayNode arrayNode = (ArrayNode) jsonNode.get("user");
+		JsonNode firstUser = arrayNode.get(0);
+
+		((ObjectNode)firstUser).put("name", "ihhhhaaaaa");
+
+		System.out.println(arrayNode.get(0).get("address").get("phone"));
+
+
+		return jsonNode;
+	}
+
+	private String convertJsonStringToTree(RestTemplate restTemplate) {
+		String uri = "http://localhost:8080/jersey/rest/userres/users";
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+		ResponseEntity<Object> result = restTemplate.exchange(uri, HttpMethod.GET, entity, Object.class);
+		Object list = result.getBody();
+
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectWriter writter = mapper.writer().withDefaultPrettyPrinter();
+		String jsonStr = null;
+		try {
+			jsonStr = writter.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		ObjectReader reader = mapper.reader();
+		try {
+			Object obj = mapper.readValue(jsonStr, Object.class);
+			obj.toString();
+
+			JsonNode jsonNode = mapper.reader().readTree(jsonStr);
+			ArrayNode arrayNode = (ArrayNode) jsonNode.get("user");
+			System.out.println(arrayNode.get(0).get("address").get("phone"));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+		return jsonStr;
+	}
+
 
 
 }
