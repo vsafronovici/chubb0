@@ -1,8 +1,8 @@
 package com.chubb.rest.adapter.request;
 
+import com.chubb.rest.adapter.connection.Connection;
 import com.chubb.rest.adapter.response.Response;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
