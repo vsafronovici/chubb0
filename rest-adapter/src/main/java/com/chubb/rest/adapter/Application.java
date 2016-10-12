@@ -1,18 +1,27 @@
 package com.chubb.rest.adapter;
 
+import com.chubb.rest.adapter.client.RestJsonClient;
+import com.chubb.rest.adapter.client.RestJsonClientImpl;
 import com.chubb.rest.adapter.connection.Connection;
 import com.chubb.rest.adapter.connection.ConnectionFactory;
 import com.chubb.rest.adapter.util.Environment;
 import com.chubb.rest.adapter.util.PropertyCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by ichistruga on 10/11/2016.
  */
+@SpringBootApplication
+//@ComponentScan("com.chubb.rest.adapter.client")
 public class Application {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
@@ -23,9 +32,20 @@ public class Application {
     }
 
     @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
+
+
+
+    @Bean
     public CommandLineRunner startPoint() {
         return (args) -> {
-            if (args.length == 0 )
+
+            //System.out.println(builder.toString());
+
+
+            /*if (args.length == 0 )
             {
                 log.error("No arguments provided!!!");
                 return;
@@ -36,7 +56,7 @@ public class Application {
 
             Connection conn = ConnectionFactory.getConnection(PropertyCache.getProperties().get(Environment.getName()));
 
-            log.info(conn.getServer());
+            log.info(conn.getServer());*/
         };
     }
 }

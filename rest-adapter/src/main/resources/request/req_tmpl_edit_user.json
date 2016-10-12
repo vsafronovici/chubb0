@@ -1,0 +1,10 @@
+{
+  "request": {
+    "Resource": "jersey/rest/userres/users/user/edit/1",
+    "Method": "PUT",
+    "Headers": {
+      "Content-Type": "application/json"
+    },
+    "Body": "req_tmpl_edit_user_body.json"
+  }
+}
