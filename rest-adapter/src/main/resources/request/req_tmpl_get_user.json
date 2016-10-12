@@ -3,8 +3,12 @@
     "Resource": "/jersey/rest//users/user/edit/1",
     "Method": "PUT",
     "Headers": {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Accept" : "application/json"
     },
-    "Body": {}
+    "Body": {
+      "id" : 1,
+      "name" : "new name"
+    }
   }
 }

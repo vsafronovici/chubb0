@@ -16,6 +16,8 @@ import java.nio.charset.StandardCharsets;
  */
 public final  class JsonUtil {
 
+    private static final String JACKSON_PATH_DELIMITER = "/";
+
     private JsonUtil() {
     }
 
@@ -23,15 +25,14 @@ public final  class JsonUtil {
         ObjectMapper mapper = new ObjectMapper();
         ObjectReader reader = mapper.reader();
         JsonNode jsonNode = mapper.reader().readTree(json);
-
-
         return jsonNode;
     }
 
-    public static String readFileToString(String resourcePath) throws IOException {
-        URL url = Test1.class.getResource(resourcePath);
-        File file = new File(url.getFile());
-        return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+    public static JsonNode findNodeByPath(JsonNode jsonNode, String path) throws IOException {
+        String jacksonPath = JACKSON_PATH_DELIMITER.concat(path.replaceAll("\\.", JACKSON_PATH_DELIMITER));
+        return jsonNode.at(jacksonPath);
     }
+
+
 
 }
