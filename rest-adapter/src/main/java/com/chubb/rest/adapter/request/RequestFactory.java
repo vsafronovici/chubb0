@@ -1,13 +1,16 @@
 package com.chubb.rest.adapter.request;
 
 import com.chubb.rest.adapter.connection.Connection;
+import com.chubb.rest.adapter.exception.SevereException;
 import com.chubb.rest.adapter.util.FileUtil;
 import com.chubb.rest.adapter.util.JsonUtil;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,7 +42,15 @@ public final class RequestFactory {
         String bodyFile = JsonUtil.findNodeByPath(requestNode, "request.Body").textValue();
         String body = null;
         if (bodyFile != null) {
-            body = FileUtil.readFileToString(String.format("/request/%s", bodyFile));
+            //TODO read from Root (System property)
+            String jsonFilePath = JsonUtil.class.getResource(String.format("/request/%s", bodyFile)).getFile();
+            try {
+                body = JsonUtil.loadFromFile(jsonFilePath).toString();
+            } catch (FileNotFoundException e) {
+                throw new SevereException(e.getMessage(), e);
+            } catch (JsonParseException e) {
+                throw new SevereException("Invalid Json format for file: " + jsonFilePath);
+            }
         }
 
         Request request = new Request();

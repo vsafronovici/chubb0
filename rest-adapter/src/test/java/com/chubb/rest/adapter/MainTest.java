@@ -6,7 +6,7 @@ import com.chubb.rest.adapter.connection.ConnectionFactory;
 import com.chubb.rest.adapter.request.Request;
 import com.chubb.rest.adapter.request.RequestFactory;
 import com.chubb.rest.adapter.response.Response;
-import com.chubb.rest.adapter.util.FileUtil;
+import com.chubb.rest.adapter.util.JsonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +26,15 @@ import static org.junit.Assert.assertThat;
 @SpringBootTest
 public class MainTest {
 
+
     @Autowired
     private RestJsonClient restJsonClient;
 
 
     @Test
     public void sendRequestTest() throws IOException {
-        String jsonReq = FileUtil.readFileToString("/request/req_tmpl_edit_user.json");
+
+        String jsonReq = JsonUtil.loadFromFile(JsonUtil.class.getResource("/request/req_tmpl_edit_user.json").getFile()).toString();
         Connection connection = ConnectionFactory.getConnection("http://localhost:8080");
         Request req = RequestFactory.create(connection, jsonReq);
         Response response = restJsonClient.sendRequest(req);

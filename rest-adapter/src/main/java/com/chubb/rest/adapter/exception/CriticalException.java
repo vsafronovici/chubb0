@@ -8,6 +8,7 @@ public class CriticalException extends RuntimeException {
     public CriticalException(String message) {
         super(message);
     }
+
     public CriticalException(String message, Throwable e) {
         super(message, e);
     }

@@ -1,4 +1,10 @@
 {
   "id" : 1,
-  "name" : "new name"
+  "name" : "new name",
+  "lastname":"lastname2",
+  "sex":"M",
+  "address":{
+    "phone":"phone2",
+    "zip":"zip211"
+  }
 }

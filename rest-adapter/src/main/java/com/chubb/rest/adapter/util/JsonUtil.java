@@ -1,15 +1,13 @@
 package com.chubb.rest.adapter.util;
 
-import com.chubb.rest.adapter.test.Test1;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Created by vsafronovici on 10/11/2016.
@@ -21,18 +19,32 @@ public final  class JsonUtil {
     private JsonUtil() {
     }
 
+    public static JsonNode loadFromFile(File file) throws IOException {
+        if (!file.exists()) {
+            throw new FileNotFoundException("File does not exist: " + file.getAbsolutePath());
+        }
+        FileInputStream fis = new FileInputStream(file);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.reader().readTree(fis);
+        IOUtils.closeQuietly(fis);
+
+        return node;
+    }
+
+    public static JsonNode loadFromFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        return loadFromFile(file);
+    }
+
     public static JsonNode convert(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        ObjectReader reader = mapper.reader();
         JsonNode jsonNode = mapper.reader().readTree(json);
         return jsonNode;
     }
 
-    public static JsonNode findNodeByPath(JsonNode jsonNode, String path) throws IOException {
+    public static JsonNode findNodeByPath(JsonNode jsonNode, String path) {
         String jacksonPath = JACKSON_PATH_DELIMITER.concat(path.replaceAll("\\.", JACKSON_PATH_DELIMITER));
         return jsonNode.at(jacksonPath);
     }
-
-
 
 }
