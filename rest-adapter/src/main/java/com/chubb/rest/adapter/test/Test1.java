@@ -1,19 +1,11 @@
 package com.chubb.rest.adapter.test;
 
-import com.chubb.rest.adapter.request.Connection;
-import com.chubb.rest.adapter.request.ConnectionFactory;
+import com.chubb.rest.adapter.connection.Connection;
+import com.chubb.rest.adapter.connection.ConnectionFactory;
 import com.chubb.rest.adapter.request.Request;
 import com.chubb.rest.adapter.request.RequestFactory;
 import com.chubb.rest.adapter.util.JsonUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * Created by vsafronovici on 10/11/2016.
