@@ -1,4 +1,4 @@
-package com.chubb.rest.adapter.request;
+package com.chubb.rest.adapter.connection;
 
 import java.util.Collections;
 import java.util.HashMap;

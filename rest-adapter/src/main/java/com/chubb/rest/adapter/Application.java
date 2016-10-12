@@ -1,7 +1,7 @@
 package com.chubb.rest.adapter;
 
-import com.chubb.rest.adapter.request.Connection;
-import com.chubb.rest.adapter.request.ConnectionFactory;
+import com.chubb.rest.adapter.connection.Connection;
+import com.chubb.rest.adapter.connection.ConnectionFactory;
 import com.chubb.rest.adapter.util.Environment;
 import com.chubb.rest.adapter.util.PropertyCache;
 import org.slf4j.Logger;

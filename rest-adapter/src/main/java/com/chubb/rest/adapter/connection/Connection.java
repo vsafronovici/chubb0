@@ -1,4 +1,4 @@
-package com.chubb.rest.adapter.request;
+package com.chubb.rest.adapter.connection;
 
 /**
  * Created by ichistruga on 10/10/2016.
