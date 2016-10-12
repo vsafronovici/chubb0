@@ -1,6 +1,7 @@
 package com.chubb.rest.adapter.util;
 
 import ch.qos.logback.core.util.FileUtil;
+import com.chubb.rest.adapter.exception.CriticalException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -19,7 +20,7 @@ public class PropertyCache {
 
     private static Map<String, String> properties;
 
-    public static synchronized Map<String, String> getProperties() {
+    private static synchronized Map<String, String> getProperties() {
         if (properties == null) {
             File file = new File(propertyFile);
             InputStream inputStream = null;
@@ -27,23 +28,23 @@ public class PropertyCache {
             try {
                 inputStream = FileUtils.openInputStream(file);
                 Properties prop = new Properties();
-                if (inputStream != null) {
-                    prop.load(inputStream);
-                } else {
-                    throw new FileNotFoundException("property file '" + propertyFile + "' not found in the classpath");
-                }
+                prop.load(inputStream);
                 properties = new HashMap<>();
                 prop.stringPropertyNames().forEach(
-                        (key) ->{
+                        (key) -> {
                             properties.put(key, (prop.getProperty(key)));
                         }
                 );
             } catch (Exception e) {
-                System.out.println("Exception: " + e);
+                throw new CriticalException(e.getMessage(), e);
             } finally {
                 IOUtils.closeQuietly(inputStream);
             }
         }
-        return PropertyCache.properties;
+        return properties;
+    }
+
+    public static String getProperty(String key) {
+        return getProperties().get(key);
     }
 }

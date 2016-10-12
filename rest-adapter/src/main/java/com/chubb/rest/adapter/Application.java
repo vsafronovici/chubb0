@@ -2,6 +2,7 @@ package com.chubb.rest.adapter;
 
 import com.chubb.rest.adapter.connection.Connection;
 import com.chubb.rest.adapter.connection.ConnectionFactory;
+import com.chubb.rest.adapter.exception.CriticalException;
 import com.chubb.rest.adapter.util.Environment;
 import com.chubb.rest.adapter.util.PropertyCache;
 import org.slf4j.Logger;
@@ -32,9 +33,10 @@ public class Application {
             }
 
             Environment.setName(args[0]);
-            PropertyCache.getProperties();
-
-            Connection conn = ConnectionFactory.getConnection(PropertyCache.getProperties().get(Environment.getName()));
+            if(PropertyCache.getProperty(Environment.getName()) != null){
+                throw new CriticalException("Environment not found.");
+            }
+            Connection conn = ConnectionFactory.getConnection(PropertyCache.getProperty(Environment.getName()));
 
             log.info(conn.getServer());
         };
