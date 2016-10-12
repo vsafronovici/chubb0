@@ -5,14 +5,14 @@ package com.chubb.rest.adapter.connection;
  */
 public class Connection {
 
-    private  final String url;
+    private  final String server;
 
-    public Connection(String url) {
-        this.url = url;
+    public Connection(String server) {
+        this.server = server;
     }
 
-    public String getUrl() {
-        return url;
+    public String getServer() {
+        return server;
     }
 
 

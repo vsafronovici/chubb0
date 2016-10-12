@@ -1,0 +1,10 @@
+{
+  "request": {
+    "Resource": "/jersey/rest//users/user/edit/1",
+    "Method": "PUT",
+    "Headers": {
+      "Content-Type": "application/json"
+    },
+    "Body": {}
+  }
+}
