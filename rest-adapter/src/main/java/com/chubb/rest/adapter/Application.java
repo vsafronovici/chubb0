@@ -34,7 +34,7 @@ public class Application {
             Environment.setName(args[0]);
             PropertyCache.getProperties();
 
-            Connection conn = ConnectionFactory.getConnection(PropertyCache.getProperties().get(PropertyCache.urlKey));
+            Connection conn = ConnectionFactory.getConnection(PropertyCache.getProperties().get(Environment.getName()));
 
             log.info(conn.getServer());
         };
