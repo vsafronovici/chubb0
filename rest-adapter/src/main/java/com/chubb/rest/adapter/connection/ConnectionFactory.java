@@ -18,6 +18,7 @@ public final class ConnectionFactory {
         }
 
     public static Connection getConnection(String server){
+
         Connection connection =  pool.get(server);
         if (connection == null) {
             connection = new Connection(server);
