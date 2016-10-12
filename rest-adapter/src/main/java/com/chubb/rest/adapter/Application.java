@@ -36,7 +36,7 @@ public class Application {
 
             Connection conn = ConnectionFactory.getConnection(PropertyCache.getProperties().get(PropertyCache.urlKey));
 
-            log.info(conn.getUrl());
+            log.info(conn.getServer());
         };
     }
 }

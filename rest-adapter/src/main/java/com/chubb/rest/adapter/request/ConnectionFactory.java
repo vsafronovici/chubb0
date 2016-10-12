@@ -17,11 +17,11 @@ public final class ConnectionFactory {
 
         }
 
-    public static Connection getConnection(String url){
-        Connection connection =  pool.get(url);
+    public static Connection getConnection(String server){
+        Connection connection =  pool.get(server);
         if (connection == null) {
-            connection = new Connection(url);
-            pool.put(url, connection);
+            connection = new Connection(server);
+            pool.put(server, connection);
         }
         return connection;
     }

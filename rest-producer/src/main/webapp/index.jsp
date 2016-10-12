@@ -24,7 +24,7 @@
 		$(function() {	
 			$.ajax({
 				  type: "get",
-				  url: '<%= request.getContextPath() %>/rest/userres/users',
+				  server: '<%= request.getContextPath() %>/rest/userres/users',
 				  cache: true,
 				  dataType: "json",
 				  success: function(json) {
@@ -37,7 +37,7 @@
 			});						
 			$.ajax({
 				  type: "get",
-				  url: '<%= request.getContextPath() %>/rest/userres/users',
+				  server: '<%= request.getContextPath() %>/rest/userres/users',
 				  cache: true,
 				  dataType: "xml",
 				  success: function(xml) {

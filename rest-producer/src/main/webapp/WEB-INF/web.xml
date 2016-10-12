@@ -13,6 +13,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
+        <server-pattern>/rest/*</server-pattern>
     </servlet-mapping>
 </web-app>
