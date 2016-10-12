@@ -43,16 +43,10 @@ public class Application {
     public CommandLineRunner startPoint() {
         return (args) -> {
 
-            //System.out.println(builder.toString());
+            /*Environment.setName(args[0]);
+            PropertyCache.getProperties();
 
-
-            /*if (args.length == 0 )
-            {
-                log.error("No arguments provided!!!");
-                return;
-            }
-
-            Environment.setName(args[0]);
+            Connection conn = ConnectionFactory.getConnection(PropertyCache.getProperties().get(Environment.getName()));
             if(PropertyCache.getProperty(Environment.getName()) != null){
                 throw new CriticalException("Environment not found.");
             }
