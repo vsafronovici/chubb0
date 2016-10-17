@@ -79,14 +79,14 @@
 	<repositories>
 		<repository>
 			<id>spring-libs-snapshot</id>
-			<server>https://repo.spring.io/libs-snapshot</server>
+			<url>https://repo.spring.io/libs-snapshot</url>
 		</repository>
 	</repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
 			<id>spring-libs-snapshot</id>
-			<server>https://repo.spring.io/libs-snapshot</server>
+			<url>https://repo.spring.io/libs-snapshot</url>
 		</pluginRepository>
 	</pluginRepositories>
 
